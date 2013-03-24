@@ -1,0 +1,23 @@
+development:
+  sessions:
+    default:
+      database: acts_as_activity
+      hosts:
+        - localhost:27017
+      options:
+  options:
+    use_activesupport_time_zone: true
+    use_utc: false
+test:
+  sessions:
+    default:
+      database: acts_as_activity_test
+      hosts:
+        - localhost:27017
+      options:
+        consistency: :strong
+        max_retries: 1
+        retry_interval: 0
+  options:
+    use_activesupport_time_zone: true
+    use_utc: false
