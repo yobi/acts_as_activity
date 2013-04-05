@@ -1,33 +1,42 @@
 require 'rubygems'
-require 'bundler'
+require 'spork'
+#uncomment the following line to use spork with the debugger
+#require 'spork/ext/ruby-debug'
 
-Bundler.require :default, :development, :test
-require 'mongoid'
-require 'acts_as_activity'
-require 'acts_as_activity/railtie'
+Spork.prefork do
+  require 'bundler'
 
-Combustion.initialize! :active_record
+  Bundler.require :default, :development, :test
+  require 'mongoid'
+  require 'acts_as_activity'
 
-root = File.expand_path File.dirname(__FILE__)
-Dir["#{root}/support/**/*.rb"].each { |file| require file }
+  Combustion.initialize! :active_record
 
-load(File.dirname(__FILE__) + '/models.rb')
+  root = File.expand_path File.dirname(__FILE__)
+  Dir["#{root}/support/**/*.rb"].each { |file| require file }
+  Mongoid.load!("#{root}/internal/config/mongoid.yml")
+  load(File.dirname(__FILE__) + '/models.rb')
+end
 
-RSpec.configure do |config|
-  FactoryGirl.find_definitions
-  config.include FactoryGirl::Syntax::Methods
-  config.filter_run :wip => nil
-  config.run_all_when_everything_filtered = true
-  config.before(:suite) do
-    DatabaseCleaner.strategy = :transaction
-    DatabaseCleaner.clean_with(:truncation)
-  end
+Spork.each_run do
+  # This code will be run each time you run your specs.
 
-  config.before(:each) do
-    DatabaseCleaner.start
-  end
+  RSpec.configure do |config|
+    FactoryGirl.find_definitions
+    config.include FactoryGirl::Syntax::Methods
+    config.filter_run :wip => nil
+    config.run_all_when_everything_filtered = true
+    config.before(:suite) do
+      DatabaseCleaner.strategy = :transaction
+    end
 
-  config.after(:each) do
-    DatabaseCleaner.clean
+    config.before(:each) do
+      DatabaseCleaner.start
+    end
+
+    config.after(:each) do
+      DatabaseCleaner.clean
+    end
   end
 end
+

@@ -3,7 +3,7 @@ development:
     default:
       database: acts_as_activity
       hosts:
-        - localhost:27017
+        - localhost:17017
       options:
   options:
     use_activesupport_time_zone: true
@@ -13,7 +13,7 @@ test:
     default:
       database: acts_as_activity_test
       hosts:
-        - localhost:27017
+        - localhost:17017
       options:
         consistency: :strong
         max_retries: 1

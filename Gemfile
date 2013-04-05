@@ -6,7 +6,7 @@ gem "rake"
 group :test do
   gem "rspec"
   gem "database_cleaner"
-  gem "guard"
+  gem "guard-spork"
   gem "guard-rspec"
   gem "rb-fsevent"
   gem 'combustion', '~> 0.3.1'
