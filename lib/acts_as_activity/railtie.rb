@@ -1,4 +1,5 @@
 module ActsAsActivity
+  require 'rails'
   class Railtie < Rails::Railtie
     initializer 'acts_as_activity.insert_into_active_record' do |app|
       ActiveSupport.on_load :active_record do

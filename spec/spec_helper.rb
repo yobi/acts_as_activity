@@ -5,7 +5,7 @@ require 'spork'
 
 Spork.prefork do
   require 'bundler'
-
+  Bundler.setup
   Bundler.require :default, :development, :test
   require 'mongoid'
   require 'acts_as_activity'

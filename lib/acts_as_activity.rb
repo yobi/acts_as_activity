@@ -1,5 +1,4 @@
 require 'mongoid'
-require 'rails'
 require 'acts_as_activity/glue'
 require 'acts_as_activity/instance_methods'
 require 'acts_as_activity/documents/activity'
