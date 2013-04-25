@@ -1,7 +1,9 @@
 require 'mongoid'
+require 'rest-more'
 require 'acts_as_activity/glue'
 require 'acts_as_activity/instance_methods'
 require 'acts_as_activity/documents/activity'
+require 'acts_as_activity/facebook_opengraph'
 require 'acts_as_activity/railtie'
 
 module ActsAsActivity
@@ -24,6 +26,8 @@ module ActsAsActivity
       self.activity_ogp = options[:ogp]
       class_attribute :activity_active_when
       self.activity_active_when = options[:active_when]
+      class_attribute :activity_user
+      self.activity_user = options[:action_user]
 
       if activity_auto_create
         after_create :create_activity!

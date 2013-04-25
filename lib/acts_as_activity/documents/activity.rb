@@ -4,12 +4,13 @@ class Activity
 
   field :activity_type, type: String
   field :activity_id, type: String
+  field :user_id, type: Integer
   field :subject, type: String
   field :verb, type: String
   field :preposition, type: String
   field :object, type: String
   field :active, type: Boolean
-  field :ogp_action_id, type: String
+  field :ogp_story_id, type: String
 
   index({activity_type: 1, activity_id: 1, active: 1}, {unique: true})
 

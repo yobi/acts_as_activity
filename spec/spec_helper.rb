@@ -15,6 +15,11 @@ Spork.prefork do
   root = File.expand_path File.dirname(__FILE__)
   Dir["#{root}/support/**/*.rb"].each { |file| require file }
   Mongoid.load!("#{root}/internal/config/mongoid.yml")
+  RestCore::Config.load(
+    RestCore::Facebook,
+    "#{root}/internal/config/rest-core.yml",
+    'test',
+    'facebook')
   load(File.dirname(__FILE__) + '/models.rb')
 end
 

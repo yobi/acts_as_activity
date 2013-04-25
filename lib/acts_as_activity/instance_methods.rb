@@ -26,7 +26,8 @@ module ActsAsActivity
     end
 
     def activity_data
-      { subject: activity_subject,
+      { user_id: get_activity_user,
+        subject: activity_subject,
         verb: activity_verb,
         preposition: activity_preposition,
         object: activity_object,
@@ -75,6 +76,11 @@ module ActsAsActivity
       else
         object
       end
+    end
+
+    def get_activity_user
+      user = self.class.activity_user
+      return user.call(self)
     end
 
     # @TODO move to utility class

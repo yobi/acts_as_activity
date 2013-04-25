@@ -17,4 +17,5 @@ Gem::Specification.new do |s|
   s.add_dependency('mongoid')
   s.add_dependency('mysql2')
   s.add_dependency('rails', '>= 3.2.13')
+  s.add_dependency('rest-more')
 end

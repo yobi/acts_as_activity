@@ -10,6 +10,7 @@ class Contestant < ActiveRecord::Base
   belongs_to :contest
   belongs_to :user
   acts_as_activity active_when: Proc.new { |contestant| contestant.published? && contestant.processed? && contestant.active? },
+    action_user: Proc.new { |contestant| contestant.user_id },
     sentance: { subject: { model: User, field: :screenname },
                 verb: "submitted a contest entry, ",
                 object: { field: :title }},
@@ -27,6 +28,7 @@ class Vote
   field :active, type: Boolean
 
   acts_as_activity active_when: Proc.new { |vote| Contestant.find(vote.contestant_id).active && vote.active },
+    action_user: Proc.new { |vote| vote.user_id },
     sentance: {
       subject: Proc.new { |ballot_vote| User.find(ballot_vote.user_id).screenname },
       verb: "voted for",
