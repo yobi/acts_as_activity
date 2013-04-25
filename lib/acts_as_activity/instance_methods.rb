@@ -15,9 +15,17 @@ module ActsAsActivity
       Activity.where(activity_type: self.class.to_s, activity_id: self.id).first
     end
 
+    def update_activity
+      a = activity
+      activity_data.each do |field, value|
+        a[field] = value
+      end
+      a
+    end
+
     def update_activity!
       if !self.new_record?
-        activity.update_attributes(activity_data)
+        update_activity.save
       end
     end
 
