@@ -1,19 +1,20 @@
 module ActsAsActivity
   class FacebookOpengraph
-    def initialize opts={}
+    def initialize( opts={} )
       @fb_client = RestCore::Facebook.new(:access_token => opts[:access_token])
+      @fb_app_config = YAML.load_file("#{Rails.root}/config/rest-core.yml")[Rails.env]['facebook']
     end
 
     #https://graph.facebook.com/me/yobi-dev:vote_for&
     #access_token=ACCESS_TOKEN&
     #method=POST&
     #film=http://samples.ogp.me/525845907445600
-    def post_story(app_namespace, action_type, object)
-      @fb_client.post("me/#{app_namespace}:#{action_type}", object)
+    def post_story( fb_user_id, action, object )
+      @fb_client.post("#{fb_user_id}/#{@fb_app_config['app_namespace']}:#{action}", object)
     end
 
-    def delete_story(story_id)
-
+    def delete_story( story_id )
+      @fb_client.delete(story_id)
     end
   end
 end

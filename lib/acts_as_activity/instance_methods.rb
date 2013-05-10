@@ -31,6 +31,7 @@ module ActsAsActivity
 
     def deactivate_activity!
       activity.update_attributes!(active: false)
+      activity.destroy_ogp_story
     end
 
     def activity_data
@@ -91,7 +92,31 @@ module ActsAsActivity
       return user.call(self)
     end
 
-    # @TODO move to utility class
+    def ogp_action
+      self.class.activity_ogp[:action]
+    end
+
+    def ogp_action_type
+      action_type = self.class.activity_ogp[:type]
+      if action_type.is_a? Proc
+        action_type.call(self)
+      elsif action_type.is_a? Hash
+        self.field_from_hash(action_type)
+      else
+        action_type
+      end
+    end
+
+    def ogp_object_url
+      object = self.class.activity_ogp[:object]
+      if object.is_a? Proc
+        object.call(self)
+      else
+        object
+      end
+    end
+
+    #@TODO move to utility class
     def field_from_hash(options = {})
       if options[:proc].nil?
         if options[:model].nil?

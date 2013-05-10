@@ -1,9 +1,10 @@
 FactoryGirl.define do
   sequence :name do |n|
-    "Contest ##{n}"
+    "YOBIFoo#{n}"
   end
 
   factory :contest do
     name
+    ogp_type "artist"
   end
 end

@@ -34,6 +34,12 @@ class Vote
       verb: "voted for",
       object: { proc: Proc.new { |vote| Contestant.find(vote.contestant_id) }, dependent: true, field: :title }},
     ogp: { action: :vote_for,
-           type: { model: Contest, field: :ogp_type }},
+           type: Proc.new { |vote| Contestant.find(vote.contestant_id).contest.ogp_type.to_sym },
+           object: Proc.new { |vote| vote.object_url }},
     auto_create: true
+
+  def object_url
+    contestant = Contestant.find(contestant_id)
+    "/#{contestant.contest.name.downcase}/contestant/#{contestant.user.screenname}"
+  end
 end

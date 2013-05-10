@@ -22,8 +22,18 @@ module ActsAsActivity
       self.create_activity_on = options[:create_on]
       class_attribute :activity_sentance
       self.activity_sentance = options[:sentance]
-      class_attribute :activity_ogp
-      self.activity_ogp = options[:ogp]
+
+      if options[:ogp]
+        class_attribute :activity_ogp
+        self.activity_ogp = options[:ogp]
+        Rails.logger.debug(self.activity_ogp)
+        class_eval do
+          def self.activity_ogp_enabled?
+            true
+          end
+        end
+      end
+
       class_attribute :activity_active_when
       self.activity_active_when = options[:active_when]
       class_attribute :activity_user
@@ -34,9 +44,14 @@ module ActsAsActivity
         after_save :update_activity!
         after_destroy :deactivate_activity!
       end
+
     end
 
     def activity?
+      false
+    end
+
+    def activity_ogp_enabled?
       false
     end
   end

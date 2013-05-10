@@ -12,6 +12,7 @@ end
 guard 'rspec', cli: "--drb --drb-port 8900 --color"  do
   watch(%r{^spec/.+_spec\.rb})
   watch(%r{^spec/models.rb}) { "spec" }
+  watch(%r{^lib/acts_as_activity/documents/(.+)\.rb}) { |m| "spec/acts_as_activity/lib/documents/#{m[1]}_spec.rb" }
   watch(%r{^lib/(.+)\.rb})     { |m| "spec/lib/#{m[1]}_spec.rb" }
   watch('spec/spec_helper.rb') { "spec" }
   watch('lib/acts_as_activity.rb') { "spec" }

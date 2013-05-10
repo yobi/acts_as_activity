@@ -9,7 +9,6 @@ Spork.prefork do
   Bundler.require :default, :development, :test
   require 'mongoid'
   require 'acts_as_activity'
-
   Combustion.initialize! :active_record
 
   root = File.expand_path File.dirname(__FILE__)
