@@ -30,7 +30,7 @@ class Activity
 
   def create_ogp_story
     if action_class.activity_ogp_enabled? && fb_ogp && ogp_story_id.nil?
-      response = fb_ogp.post_story(user.facebook_id, action.ogp_action, { action.ogp_action_type => action.ogp_object_url})
+      response = fb_ogp.post_story(user.facebook_id, action.ogp_action, action.ogp_action_type, action.ogp_object_url)
       if response["id"]
         set(:ogp_story_id, response["id"])
       end
