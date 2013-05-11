@@ -4,6 +4,14 @@ module ActsAsActivity
       data = activity_data
       data[:activity_type] = self.class.to_s
       data[:activity_id] = self.id
+      if respond_to?(:embedded?) && embedded?
+        associations.each do |key, params|
+          if params.macro == :embedded_in
+            data[:embedded_in_type] = params.class_name
+            data[:embedded_in_id] = self.send(key).id
+          end
+        end
+      end
       Activity.new(data)
     end
 

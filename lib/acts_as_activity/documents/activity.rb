@@ -4,6 +4,8 @@ class Activity
 
   field :activity_type, type: String
   field :activity_id, type: String
+  field :embedded_in_type, type: String
+  field :embedded_in_id, type: String
   field :user_id, type: Integer
   field :subject, type: String
   field :verb, type: String
@@ -56,8 +58,28 @@ class Activity
     end
   end
 
+  def embedded_in_class
+    if embedded_in_type
+      begin
+        @embedded_in_class ||= Object.const_get(self.embedded_in_type)
+      rescue NameError
+        return false
+      end
+    end
+  end
+
+  def embedded_in
+    if embedded_in_class
+      @embedded_in ||= embedded_in_class.find(embedded_in_id)
+    else
+      false
+    end
+  end
+
   def action
-    if action_class
+    if self.embedded_in_type && self.embedded_in_id
+      @action ||= embedded_in.send(self.activity_type.pluralize).find(self.activity_id)
+    elsif action_class
       @action ||= action_class.find(self.activity_id)
     end
   end

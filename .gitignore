@@ -74,3 +74,4 @@ pickle-email-*.html
 **.swp
 
 # Ignore application configuration
+/spec/internal/config/rest-core.yml

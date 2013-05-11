@@ -19,6 +19,27 @@ class Contestant < ActiveRecord::Base
     auto_create: false }
 end
 
+class Post
+  include Mongoid::Document
+  field :body, type: String
+  field :user_id, type: Integer
+  embeds_many :comments
+end
+
+class Comment
+  include Mongoid::Document
+  include ActsAsActivity::Glue
+  field :body, type: String
+  field :user_id, type: Integer
+  embedded_in :post
+  acts_as_activity active_when: Proc.new { |comment| true },
+    action_user: Proc.new { |comment| User.find(comment.user_id) },
+    sentance: { subject: Proc.new { |comment| User.find(comment.user_id).screenname },
+                verb: "commented on",
+                object: "a post"},
+    auto_create: true
+end
+
 class Vote
   include Mongoid::Document
   include ActsAsActivity::Glue
