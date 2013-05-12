@@ -21,5 +21,13 @@ module ActsAsActivity
     def self.object_host
       @fb_app_config['object_host']
     end
+
+    def self.config_path
+      "#{Rails.root}/config/rest-core.yml"
+    end
+
+    def self.config
+      YAML.load_file("#{Rails.root}/config/rest-core.yml")[Rails.env]['facebook']
+    end
   end
 end
