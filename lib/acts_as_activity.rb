@@ -40,7 +40,6 @@ module ActsAsActivity
       self.activity_user = options[:action_user]
 
       if self.activity_auto_create
-        puts "test"
         after_create :create_activity!
         after_save :update_activity!
         after_destroy :deactivate_activity!
