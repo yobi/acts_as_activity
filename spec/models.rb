@@ -15,8 +15,8 @@ class Contestant < ActiveRecord::Base
                 verb: "submitted a contest entry, ",
                 object: { field: :title }},
     ogp: { action: :publish,
-           type: { model: Contest, field: :ogp_type },
-    auto_create: false }
+           type: { model: Contest, field: :ogp_type }},
+    auto_create: false
 end
 
 class Post

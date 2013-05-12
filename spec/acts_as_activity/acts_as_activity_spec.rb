@@ -21,6 +21,10 @@ describe ActsAsActivity do
         @contestant = create(:contestant)
       end
 
+      it "should not auto create activity" do
+        @contestant.activity.should == nil
+      end
+
       it "should build a new activity" do
         activity = @contestant.create_activity
         activity.new_record?.should eq(true)
@@ -29,6 +33,11 @@ describe ActsAsActivity do
       it "should build a new valid activity" do
         activity = @contestant.create_activity
         activity.valid?.should eq(true)
+      end
+
+      it "should not allow duplicate activities to be created" do
+        @contestant.create_activity!
+        @contestant.create_activity.should eq(false)
       end
     end
 

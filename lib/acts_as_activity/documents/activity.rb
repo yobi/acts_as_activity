@@ -14,7 +14,7 @@ class Activity
   field :active, type: Boolean
   field :ogp_story_id, type: String
 
-  index({activity_type: 1, activity_id: 1, active: 1}, {unique: true})
+  index({activity_type: 1, activity_id: 1}, {unique: true})
 
   validates_presence_of :activity_type
   validates_presence_of :activity_id

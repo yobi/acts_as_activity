@@ -32,6 +32,7 @@ Spork.each_run do
     config.run_all_when_everything_filtered = true
     config.before(:suite) do
       DatabaseCleaner.strategy = :transaction
+      DatabaseCleaner[:mongoid].strategy = :truncation
     end
 
     config.before(:each) do
