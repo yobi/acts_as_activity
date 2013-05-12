@@ -88,12 +88,18 @@ describe ActsAsActivity do
   end
 
   context "activity model is embedded" do
+    let(:post_user) { create(:user) }
+    let(:comment_user) { create(:user) }
+    let(:post) { Post.create(user_id: post_user.id, body: "This is a post") }
+    let(:comment) { post.comments.build(user_id: comment_user.id, body: "This is a comment on a post") }
     it "should set embedded_in_type" do
-      post_user = create(:user)
-      comment_user = create(:user)
-      post = Post.create(user_id: post_user.id, body: "This is a post")
-      comment = post.comments.build(user_id: comment_user.id, body: "This is a comment on a post")
       comment.save
+      comment.activity.embedded_in_type.should == "Post"
+    end
+
+    it "should set embedded_in_id" do
+      comment.save
+      comment.activity.embedded_in_id.should == post.id.to_s
     end
   end
 end

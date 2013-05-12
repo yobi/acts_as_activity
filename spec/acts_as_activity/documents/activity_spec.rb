@@ -1,6 +1,19 @@
 require File.expand_path('../../../spec_helper', __FILE__)
 
 describe Activity do
+
+  describe "#action" do
+    context "with has many embedded documents" do
+      let(:post_user) { create(:user) }
+      let(:comment_user) { create(:user) }
+      let(:post) { Post.create(user_id: post_user.id, body: "This is a post") }
+      let(:comment) { post.comments.build(user_id: comment_user.id, body: "This is a comment on a post") }
+      it "should return the action document" do
+        comment.save
+        comment.activity.action.should == comment
+      end
+    end
+  end
   describe "facebook ogp callbacks" do
     let(:fb_ogp) { double("ActsAsActivity::FacebookOpengraph") }
     let(:voter) { create(:fb_user) }
