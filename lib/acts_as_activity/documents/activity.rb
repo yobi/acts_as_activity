@@ -78,7 +78,7 @@ class Activity
 
   def action
     if self.embedded_in_type && self.embedded_in_id
-      @action ||= embedded_in.send(self.activity_type.pluralize).find(self.activity_id)
+      @action ||= embedded_in.send(self.activity_type.underscore.pluralize).find(self.activity_id)
     elsif action_class
       @action ||= action_class.find(self.activity_id)
     end
