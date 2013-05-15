@@ -26,7 +26,6 @@ module ActsAsActivity
       if options[:ogp]
         class_attribute :activity_ogp
         self.activity_ogp = options[:ogp]
-        Rails.logger.debug(self.activity_ogp)
         class_eval do
           def self.activity_ogp_enabled?
             true

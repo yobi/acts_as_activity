@@ -25,6 +25,13 @@ describe ActsAsActivity do
         @contestant.activity.should == nil
       end
 
+      it "should be indie" do
+        contestant_2 = create(:contestant)
+        contestant_2.create_activity!
+        @contestant.create_activity.should_not eq(false)
+        @contestant.create_activity!
+      end
+
       it "should build a new activity" do
         activity = @contestant.create_activity
         activity.new_record?.should eq(true)
@@ -57,6 +64,7 @@ describe ActsAsActivity do
         @contestant = create(:contestant)
         @contestant.create_activity!
       end
+
       it "should update the activity to reflect the record's updates" do
         @contestant.title = "New Title"
         @contestant.save
